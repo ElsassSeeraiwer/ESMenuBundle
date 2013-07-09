@@ -1,0 +1,30 @@
+{% extends "ElsassSeeraiwerESMenuBundle::base.html.twig" %}
+
+{% block body %}
+	<h1>{{ 'menu.liste.h1'|trans({}, 'ESMenu') }}</h1>
+
+	{{ render(controller('ElsassSeeraiwerESMenuBundle:Menu:add')) }}
+
+	<h2>{{ 'article.liste.h2'|trans({}, 'ESArticle') }}</h2>
+
+
+ 	{% for title,htmlTree in htmlTrees %}
+ 	<h3>{{ title }}</h3>
+	<table style="margin-top: 15px;">
+        <thead>
+            <tr>
+            	<th style="width:20px;text-align:center;">id</th>
+            	<th style="width:40px;text-align:center;">lvl</th>
+            	<th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ htmlTree|raw }}
+        </tbody>
+    </table>
+    {% endfor %}
+
+	<h2>Test</h2>
+
+	{{ dump(arrayTrees) }}
+{% endblock %}

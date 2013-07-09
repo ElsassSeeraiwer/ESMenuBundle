@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}ElsassSeeraiwerESMenuBundle{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("bundles/elsassseeraiweresmenu/css/bootstrap.css") }}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("bundles/elsassseeraiweresmenu/css/layout.css") }}" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        {% block topjavascripts %}{% endblock %}
+        <style>
+        </style>
+    </head>
+    <body style="background-color:white;">
+        <div class="topbar">
+            <div class="topbar-inner">
+                <div class="container">
+                    <h3><a href="{{ path("elsassseeraiwer_esarticle_articledb_list") }}" class="logo">ElsassSeeraiwer - MenuBundle</a></h3>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+
+        {% block javascripts %}
+        <script language="javascript" type="text/javascript" src="{{ asset("bundles/elsassseeraiweresmenu/js/jquery.min.js") }}"></script>
+        {% endblock %}
+    </body>
+</html>
