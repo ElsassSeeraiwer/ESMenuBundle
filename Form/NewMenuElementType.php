@@ -11,7 +11,12 @@ class NewMenuElementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', 'text', array(
+                'attr'                  => array('class' => 'span12'),
+                'label'                 => 'form.new.title',
+                'translation_domain'    => 'ESMenu',
+                'required'              => true
+            ))
             ->add('save', 'submit')
         ;
     }

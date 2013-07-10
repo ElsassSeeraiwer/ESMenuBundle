@@ -5,26 +5,212 @@
 
 	{{ render(controller('ElsassSeeraiwerESMenuBundle:Menu:add')) }}
 
-	<h2>{{ 'article.liste.h2'|trans({}, 'ESArticle') }}</h2>
+	<h2>{{ 'menu.liste.h2'|trans({}, 'ESMenu') }}</h2>
 
 
- 	{% for title,htmlTree in htmlTrees %}
- 	<h3>{{ title }}</h3>
-	<table style="margin-top: 15px;">
-        <thead>
-            <tr>
-            	<th style="width:20px;text-align:center;">id</th>
-            	<th style="width:40px;text-align:center;">lvl</th>
-            	<th>Title</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{ htmlTree|raw }}
-        </tbody>
-    </table>
+ 	{% for id,htmlTree in htmlTrees %}
+    <pre id="menu_{{ id }}">
+     	<h3 id="menu_{{ id }}_title" style="text-align:center;"><a href="{{ path('elsassseeraiwer_esmenu_menu_indexbyid', {'id': id}) }}">{{ titleRootNodes[id] }}</a> (ID:{{ id }})</h3>
+    	<table id="menu_{{ id }}_table" style="margin-top: 15px;background-color:white;">
+            <thead>
+                <tr>
+                	<th style="width:20px;text-align:center;">id</th>
+                	<th style="width:20px;text-align:center;">lvl</th>
+                	<th>Title</th>
+                    <th>Link <em>(#ancor, url, pathname)</em></th>
+                    <th>Params <em>(JSON)</em></th>
+                    <th style="width:350px">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ htmlTree|raw }}
+            </tbody>
+        </table>
+        <input type="button" value="Delete" onclick="removeMenuElem('{{ id }}')" style="background-color:red;color:white;padding:4px 8px;font-weight:bold;"/>
+    </pre>
     {% endfor %}
+{% endblock %}
 
-	<h2>Test</h2>
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var modifyTitlePath = {{ path("elsassseeraiwer_esmenu_menu_modifytitle", {"id": 'ID'})|json_encode|raw }};
+        var modifyLinkPath = {{ path("elsassseeraiwer_esmenu_menu_modifylink", {"id": 'ID'})|json_encode|raw }};
+        var modifyParamsPath = {{ path("elsassseeraiwer_esmenu_menu_modifyparams", {"id": 'ID'})|json_encode|raw }};
 
-	{{ dump(arrayTrees) }}
+        var moveUpPath = {{ path("elsassseeraiwer_esmenu_menu_moveup", {"id": 'ID'})|json_encode|raw }};
+        var moveDownPath = {{ path("elsassseeraiwer_esmenu_menu_movedown", {"id": 'ID'})|json_encode|raw }};
+        var addChildrenPath = {{ path("elsassseeraiwer_esmenu_menu_addchildren", {"id": 'ID'})|json_encode|raw }};
+        var addBrotherPath = {{ path("elsassseeraiwer_esmenu_menu_addbrother", {"id": 'ID'})|json_encode|raw }};
+        var removePath = {{ path("elsassseeraiwer_esmenu_menu_remove", {"id": 'ID'})|json_encode|raw }};
+
+        function moveDown(id)
+        {
+            var path = moveDownPath.replace('ID',id);
+
+            $.ajax(path, {
+                type: 'POST',
+                complete: function() {
+                    window.location.reload();
+                }
+            });
+        }
+
+        function moveUp(id)
+        {
+            var path = moveUpPath.replace('ID',id);
+
+            $.ajax(path, {
+                type: 'POST',
+                complete: function() {
+                    window.location.reload();
+                }
+            });
+        }
+
+        function removeMenuElem(id)
+        {
+            var path = removePath.replace('ID',id);
+
+            $.ajax(path, {
+                type: 'POST',
+                complete: function() {
+                    window.location.reload();
+                }
+            });
+        }
+
+        function addBrother(id)
+        {
+            var path = addBrotherPath.replace('ID',id);
+
+            $.ajax(path, {
+                type: 'POST',
+                complete: function() {
+                    window.location.reload();
+                }
+            });
+        }
+
+        function addChildren(id)
+        {
+            var path = addChildrenPath.replace('ID',id);
+
+            $.ajax(path, {
+                type: 'POST',
+                complete: function() {
+                    window.location.reload();
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $('input.editTitleForm')
+                .blur(function() {
+                    var self = this;
+                    var newtitle = $(self).val();
+                    var id = $(this).data('id');
+                    var origin = $(this).data('origin');
+                    var path = modifyTitlePath.replace('ID',id);
+
+                    if(origin == newtitle)return false;
+
+                    $(this).data('origin', newtitle);
+
+                    $.ajax(path, {
+                        type: 'POST',
+                        data: {'title': newtitle},
+                        error: function() {
+                            $(self).parent().prepend('<div class="alert-message error">Title could not be saved</div>');
+                        },
+                        success: function() {
+                            window.location.reload();
+                        }
+                    });
+                })
+                .focus(function() {
+                    this.select();
+                    
+                    var timeoutId = $(this).data('timeoutId');
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                        $(this).data('timeoutId', undefined);
+                    }
+                    
+                    $(this).parent().children('.alert-message').remove();
+                })
+
+
+            $('input.editLinkForm')
+                .blur(function() {
+                    var self = this;
+                    var newlink = $(self).val();
+                    var id = $(this).data('id');
+                    var origin = $(this).data('origin');
+                    var path = modifyLinkPath.replace('ID',id);
+
+                    if(origin == newlink)return false;
+
+                    $(this).data('origin', newlink);
+
+                    $.ajax(path, {
+                        type: 'POST',
+                        data: {'link': newlink},
+                        error: function() {
+                            $(self).parent().prepend('<div class="alert-message error">Title could not be saved</div>');
+                        },
+                        success: function() {
+                            window.location.reload();
+                        }
+                    });
+                })
+                .focus(function() {
+                    this.select();
+                    
+                    var timeoutId = $(this).data('timeoutId');
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                        $(this).data('timeoutId', undefined);
+                    }
+                    
+                    $(this).parent().children('.alert-message').remove();
+                })
+
+
+            $('input.editParamsForm')
+                .blur(function() {
+                    var self = this;
+                    var newparams = $(self).val();
+                    var id = $(this).data('id');
+                    var origin = $(this).data('origin');
+                    var path = modifyParamsPath.replace('ID',id);
+
+                    if(origin == newparams)return false;
+
+                    $(this).data('origin', newparams);
+
+                    $.ajax(path, {
+                        type: 'POST',
+                        data: {'params': newparams},
+                        error: function() {
+                            $(self).parent().prepend('<div class="alert-message error">Title could not be saved</div>');
+                        },
+                        success: function() {
+                            window.location.reload();
+                        }
+                    });
+                })
+                .focus(function() {
+                    this.select();
+                    
+                    var timeoutId = $(this).data('timeoutId');
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                        $(this).data('timeoutId', undefined);
+                    }
+                    
+                    $(this).parent().children('.alert-message').remove();
+                })
+        });
+    </script>
 {% endblock %}

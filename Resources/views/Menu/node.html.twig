@@ -1,0 +1,20 @@
+{% if options.transEdit == false %}
+	{% if link is defined %}
+		{% set params = {'urlTarget': '_self'}|merge(params|default({})) %}
+		<a href="{{ link|default('#') }}" target="{{ params.urlTarget }}">{{ title|trans({}, options.translation_domain) }}</a>
+	{% elseif pathname is defined %}
+		{% set params = params|default({})|merge({'_locale': locale}) %}
+		<a href="{{ path(pathname, params) }}">{{ title|trans({}, options.translation_domain) }}</a>
+	{% else %}
+		<a href="" onclick="return false;">{{ title|trans({}, options.translation_domain) }}</a>
+	{% endif %}
+{% else %}
+	{% if link is defined %}
+		<a href="{{ link|default('#') }}">{{ title|transEdit({}, options.translation_domain) }}</a>
+	{% elseif pathname is defined %}
+		{% set params = params|default({})|merge({'_locale': locale}) %}
+		<a href="{{ path(pathname, params) }}">{{ title|transEdit({}, options.translation_domain) }}</a>
+	{% else %}
+		<a href="" onclick="return false;">{{ title|transEdit({}, options.translation_domain) }}</a>
+	{% endif %}
+{% endif %}
