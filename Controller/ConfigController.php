@@ -22,7 +22,7 @@ class ConfigController extends Controller
     private $defaultOptions = array(
         'transEdit'             =>  false,
         'translation_domain'    =>  'esMenu',
-        'lvlmax'                =>  1
+        'lvlmax'                =>  1,
         'lvl1'                  =>  array(
             'ulClassname'           =>  'esMenuUL',
             'liClassname'           =>  'esMenuLI'

@@ -45,6 +45,7 @@ class MenuExtension extends \Twig_Extension
     public function getESMenu($env, $configId)
     {
         $configMenu = $this->repoConfig->findOneByConfigId($configId);
+        if(!$configMenu)return '<strong style="color:red;">ESMenu #'.$configId.'</strong>';
         
         return $this->process($env, $configMenu->getMenu(), json_decode($configMenu->getOptions(), true));
     }
