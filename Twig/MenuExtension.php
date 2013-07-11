@@ -13,11 +13,13 @@ class MenuExtension extends \Twig_Extension
     private $request;
     private $container;
 	private $em;
-    private $repo;
+    private $repoElement;
+    private $repoConfig;
     private $env;
     private $options = array(
         'transEdit'             => false,
         'translation_domain'    => 'esMenu',
+        'lvlmax'                => 1,
         'lvl1'                  => array(
             'ulClassname'           => 'esMenuUL',
             'liClassname'           => 'esMenuLI',
@@ -36,27 +38,34 @@ class MenuExtension extends \Twig_Extension
             'esMenuByTitle' => new Twig_Function_Method($this, 'getESMenuTitle', array('needs_environment' => true, 'is_safe' => array('all'))),
             'esMenuById' => new Twig_Function_Method($this, 'getESMenuId', array('needs_environment' => true, 'is_safe' => array('all'))),
             'esMenuBySlug' => new Twig_Function_Method($this, 'getESMenuSlug', array('needs_environment' => true, 'is_safe' => array('all'))),
-            'esMenu' => new Twig_Function_Method($this, 'getESMenuSlug', array('needs_environment' => true, 'is_safe' => array('all'))),
+            'esMenu' => new Twig_Function_Method($this, 'getESMenu', array('needs_environment' => true, 'is_safe' => array('all'))),
         );
+    }
+
+    public function getESMenu($env, $configId)
+    {
+        $configMenu = $this->repoConfig->findOneByConfigId($configId);
+        
+        return $this->process($env, $configMenu->getMenu(), json_decode($configMenu->getOptions(), true));
     }
 
     public function getESMenuSlug($env, $slug, $options = array())
     {
-        $rootNode = $this->repo->findOneBySlug($slug);
+        $rootNode = $this->repoElement->findOneBySlug($slug);
         
         return $this->process($env, $rootNode, $options);
     }
 
     public function getESMenuId($env, $id, $options = array())
     {
-        $rootNode = $this->repo->findOneById($id);
+        $rootNode = $this->repoElement->findOneById($id);
         
         return $this->process($env, $rootNode, $options);
     }
 
     public function getESMenuTitle($env, $title, $options = array())
     {
-        $rootNode = $this->repo->findOneByTitle($title);
+        $rootNode = $this->repoElement->findOneByTitle($title);
         
         return $this->process($env, $rootNode, $options);
     }
@@ -67,7 +76,7 @@ class MenuExtension extends \Twig_Extension
 
         $this->options = array_merge($this->options, $options);
 
-        $content = $this->repo->childrenHierarchy(
+        $content = $this->repoElement->childrenHierarchy(
             $rootNode,
             false,
             array(
@@ -75,6 +84,8 @@ class MenuExtension extends \Twig_Extension
                 'html' => true,
                 'rootOpen' => function($tree) {
                     $currentLVL = $tree[0]['lvl'];
+                    if($currentLVL > $this->options['lvlmax'])return '';
+
                     $classname = 
                         (isset($this->options['lvl'.$currentLVL]['ulClassname'])) ? 
                             $this->options['lvl'.$currentLVL]['ulClassname'] : 
@@ -84,10 +95,15 @@ class MenuExtension extends \Twig_Extension
                     return '<ul id="'.$id.'" class="'.$classname.'">';
                 },
                 'rootClose' => function($child) {
+                    $currentLVL = $child[0]['lvl'];
+                    if($currentLVL > $this->options['lvlmax'])return '';
+
                     return '</ul>';
                 },
                 'childOpen' => function($node) {
                     $currentLVL = $node['lvl'];
+                    if($currentLVL > $this->options['lvlmax'])return '';
+
                     $classname = 
                         (isset($this->options['lvl'.$currentLVL]['liClassname'])) ? 
                             $this->options['lvl'.$currentLVL]['liClassname'] : 
@@ -96,9 +112,15 @@ class MenuExtension extends \Twig_Extension
                     return '<li id="'.$id.'" class="'.$classname.'">';
                 },
                 'childClose' => function($node) {
+                    $currentLVL = $node['lvl'];
+                    if($currentLVL > $this->options['lvlmax'])return '';
+
                     return '</li>';
                 },
                 'nodeDecorator' => function($node) {
+                    $currentLVL = $node['lvl'];
+                    if($currentLVL > $this->options['lvlmax'])return '';
+
                     $link = $node['link'];
                     $params = json_decode(preg_replace("/([a-zA-Z0-9_]+?):/" , "\"$1\":", $node['params']), true);
 
@@ -151,6 +173,7 @@ class MenuExtension extends \Twig_Extension
     {
         $this->container = $container;
         $this->em = $entityManager;
-        $this->repo = $this->em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
+        $this->repoElement = $this->em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
+        $this->repoConfig = $this->em->getRepository('ElsassSeeraiwerESMenuBundle:MenuConfig');
     }
 }

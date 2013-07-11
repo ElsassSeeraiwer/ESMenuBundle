@@ -1,0 +1,41 @@
+{% extends "ElsassSeeraiwerESMenuBundle::base.html.twig" %}
+
+{% block body %}
+	<h1>{{ 'config.liste.h1'|trans({}, 'ESMenu') }}</h1>
+
+	{{ render(controller('ElsassSeeraiwerESMenuBundle:Config:add')) }}
+
+	<h2>{{ 'config.liste.h2'|trans({}, 'ESMenu') }}</h2>
+
+ 	{% for config in configs %}
+ 	<div id="config_{{ config.id }}" style="background-color: #F5F5F5;padding: 8.5px;margin: 5px 0 18px;border: 1px solid #CCC;border: 1px solid rgba(0, 0, 0, 0.15);-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">
+ 		<div onclick="$('#config_{{ config.id }}_form').toggle();" style="cursor:pointer;">
+     	    <h3 id="config_{{ config.id }}_title" style="display:inline-block;"><a href="#">{{ config.configId }}</a></h3>
+            <input type="button" value="Delete" onclick="removeMenuConfig('{{ config.id }}');return false;" style="float:right;display:inline-block;background-color:red;color:white;padding:4px 8px;font-weight:bold;"/>
+     	    <span style="float:right;display:inline-block;font-size:14px;padding:5px;">Current root : <strong>{{ config.menu }}</strong></span>
+        </div>
+        <div id="config_{{ config.id }}_form">
+			{{ render(controller('ElsassSeeraiwerESMenuBundle:Config:modify', {'id': config.id})) }}
+        </div>
+ 	</div>
+ 	{% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var removePath = {{ path("elsassseeraiwer_esmenu_config_remove", {"id": 'ID'})|json_encode|raw }};
+
+        function removeMenuConfig(id)
+        {
+            var path = removePath.replace('ID',id);
+
+            $.ajax(path, {
+                type: 'POST',
+                complete: function() {
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+{% endblock %}

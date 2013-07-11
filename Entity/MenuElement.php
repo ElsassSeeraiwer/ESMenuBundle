@@ -95,6 +95,10 @@ class MenuElement
      */
     private $slug;
 
+    public function __toString()
+    {
+        return $this->id.' - '.$this->title;
+    }
 
     /**
      * Get id

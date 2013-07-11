@@ -1,0 +1,50 @@
+<style>
+	#newConfigForm div {
+		display: inline-block;
+		vertical-align: top;
+		margin-bottom: 5px;
+	}
+
+	#newConfigForm form {
+		margin-top: 15px;
+	}
+
+	#newConfigForm label {
+		width: 100px;
+		margin-right: 15px;
+	}
+
+	#newConfigForm textarea {
+		height: 150px;
+	}
+
+	#newConfigForm button[type=submit] {
+		cursor: pointer;
+		-webkit-appearance: button;
+		-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+		-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+		-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+		-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+		transition: border linear 0.2s, box-shadow linear 0.2s;
+		-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+		-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+		display: inline-block;
+		width: 75px;
+		height: 29px;
+		padding: 4px;
+		margin-left: 15px;
+		font-size: 13px;
+		line-height: 18px;
+		color: #808080;
+		border: 1px solid #CCC;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+	}
+</style>
+<div id="newConfigForm">
+	<h2>{{ 'config.new.h2'|trans({}, 'ESMenu') }}</h2>
+
+	{{ form(form) }}
+</div>
