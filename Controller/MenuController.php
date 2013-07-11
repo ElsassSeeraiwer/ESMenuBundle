@@ -42,21 +42,6 @@ class MenuController extends Controller
         return $this->processList($rootNodes);
     }
 
-    /**
-     * @Route("/{id}/")
-     * @Template("ElsassSeeraiwerESMenuBundle:Menu:index.html.twig")
-     * @Method("GET")
-     */
-    public function indexByIdAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
-
-        $rootNodes = $repo->findBy(array('id' => $id));
-
-        return $this->processList($rootNodes);
-    }
-
     private function processList($rootNodes)
     {
         $em = $this->getDoctrine()->getManager();
@@ -391,6 +376,21 @@ class MenuController extends Controller
         	'htmlTree'	=> $htmlTree,
         	'htmlTree2'	=> $htmlTree2,
     	);
+    }
+
+    /**
+     * @Route("/{id}/")
+     * @Template("ElsassSeeraiwerESMenuBundle:Menu:index.html.twig")
+     * @Method("GET")
+     */
+    public function indexByIdAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
+
+        $rootNodes = $repo->findBy(array('id' => $id));
+
+        return $this->processList($rootNodes);
     }
 
 
