@@ -9,8 +9,12 @@
 
 
  	{% for id,htmlTree in htmlTrees %}
-    <pre id="menu_{{ id }}">
-     	<h3 id="menu_{{ id }}_title" style="text-align:center;"><a href="{{ path('elsassseeraiwer_esmenu_menu_indexbyid', {'id': id}) }}">{{ titleRootNodes[id] }}</a> (ID:{{ id }})</h3>
+    <div id="menu_{{ id }}" style="background-color: #F5F5F5;padding: 8.5px;margin: 5px 0 18px;border: 1px solid #CCC;border: 1px solid rgba(0, 0, 0, 0.15);-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">
+        <div onclick="$('#menu_{{ id }}_table').toggle();" style="cursor:pointer;">
+     	    <h3 id="menu_{{ id }}_title" style="display:inline-block;"><a href="{{ path('elsassseeraiwer_esmenu_menu_indexbyid', {'id': id}) }}">{{ titleRootNodes[id] }}</a> (ID : {{ id }} - slug : {{ slugRootNodes[id] }})</h3>
+            <input type="button" value="Delete" onclick="removeMenuElem('{{ id }}')" style="float:right;display:inline-block;background-color:red;color:white;padding:4px 8px;font-weight:bold;"/>
+            <input type="button" value="Add Children" onclick="addChildren('{{ id }}')" style="float:right;display:inline-block;background-color:green;padding:4px 8px;color:white;"/>
+        </div>
     	<table id="menu_{{ id }}_table" style="margin-top: 15px;background-color:white;">
             <thead>
                 <tr>
@@ -26,8 +30,8 @@
                 {{ htmlTree|raw }}
             </tbody>
         </table>
-        <input type="button" value="Delete" onclick="removeMenuElem('{{ id }}')" style="background-color:red;color:white;padding:4px 8px;font-weight:bold;"/>
-    </pre>
+        <div style="clear:both;"></div>
+    </div>
     {% endfor %}
 {% endblock %}
 

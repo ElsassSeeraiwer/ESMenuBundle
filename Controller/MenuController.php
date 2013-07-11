@@ -60,11 +60,12 @@ class MenuController extends Controller
     private function processList($rootNodes)
     {
         $em = $this->getDoctrine()->getManager();
-        $titleRootNodes = $htmlTrees = array();
+        $titleRootNodes = $slugRootNodes = $htmlTrees = array();
         $repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
 
         foreach ($rootNodes as $rootNode) {
             $titleRootNodes[$rootNode->getId()] = $rootNode->getTitle();
+            $slugRootNodes[$rootNode->getId()] = $rootNode->getSlug();
 
             $htmlTrees[$rootNode->getId()] = $repo->childrenHierarchy(
                 $rootNode,
@@ -110,8 +111,9 @@ class MenuController extends Controller
         }
 
         return array(
-            'htmlTrees'     => $htmlTrees,
+            'htmlTrees'         => $htmlTrees,
             'titleRootNodes'    => $titleRootNodes,
+            'slugRootNodes'     => $slugRootNodes,
         );
     }
 

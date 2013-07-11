@@ -33,14 +33,14 @@ class MenuElement
     /**
      * @var string
      *
-     * @ORM\Column(name="link", type="text")
+     * @ORM\Column(name="link", type="text", nullable=true)
      */
     private $link;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="params", type="text")
+     * @ORM\Column(name="params", type="text", nullable=true)
      */
     private $params;
 
@@ -89,6 +89,12 @@ class MenuElement
      */
     private $children;
 
+    /**
+     * @Gedmo\Slug(fields={"title"}, updatable=false)
+     * @ORM\Column(length=255, unique=true)
+     */
+    private $slug;
+
 
     /**
      * Get id
@@ -131,5 +137,183 @@ class MenuElement
     public function getParent()
     {
         return $this->parent;   
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set link
+     *
+     * @param string $link
+     * @return MenuElement
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+    
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string 
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * Set params
+     *
+     * @param string $params
+     * @return MenuElement
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
+    
+        return $this;
+    }
+
+    /**
+     * Get params
+     *
+     * @return string 
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * Set lft
+     *
+     * @param integer $lft
+     * @return MenuElement
+     */
+    public function setLft($lft)
+    {
+        $this->lft = $lft;
+    
+        return $this;
+    }
+
+    /**
+     * Get lft
+     *
+     * @return integer 
+     */
+    public function getLft()
+    {
+        return $this->lft;
+    }
+
+    /**
+     * Set lvl
+     *
+     * @param integer $lvl
+     * @return MenuElement
+     */
+    public function setLvl($lvl)
+    {
+        $this->lvl = $lvl;
+    
+        return $this;
+    }
+
+    /**
+     * Get lvl
+     *
+     * @return integer 
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
+    }
+
+    /**
+     * Set rgt
+     *
+     * @param integer $rgt
+     * @return MenuElement
+     */
+    public function setRgt($rgt)
+    {
+        $this->rgt = $rgt;
+    
+        return $this;
+    }
+
+    /**
+     * Get rgt
+     *
+     * @return integer 
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+    /**
+     * Set root
+     *
+     * @param integer $root
+     * @return MenuElement
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
+    
+        return $this;
+    }
+
+    /**
+     * Get root
+     *
+     * @return integer 
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * Add children
+     *
+     * @param \ElsassSeeraiwer\ESMenuBundle\Entity\MenuElement $children
+     * @return MenuElement
+     */
+    public function addChildren(\ElsassSeeraiwer\ESMenuBundle\Entity\MenuElement $children)
+    {
+        $this->children[] = $children;
+    
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \ElsassSeeraiwer\ESMenuBundle\Entity\MenuElement $children
+     */
+    public function removeChildren(\ElsassSeeraiwer\ESMenuBundle\Entity\MenuElement $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

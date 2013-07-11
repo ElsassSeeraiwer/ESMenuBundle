@@ -35,7 +35,16 @@ class MenuExtension extends \Twig_Extension
         return array(
             'esMenuByTitle' => new Twig_Function_Method($this, 'getESMenuTitle', array('needs_environment' => true, 'is_safe' => array('all'))),
             'esMenuById' => new Twig_Function_Method($this, 'getESMenuId', array('needs_environment' => true, 'is_safe' => array('all'))),
+            'esMenuBySlug' => new Twig_Function_Method($this, 'getESMenuSlug', array('needs_environment' => true, 'is_safe' => array('all'))),
+            'esMenu' => new Twig_Function_Method($this, 'getESMenuSlug', array('needs_environment' => true, 'is_safe' => array('all'))),
         );
+    }
+
+    public function getESMenuSlug($env, $slug, $options = array())
+    {
+        $rootNode = $this->repo->findOneBySlug($slug);
+        
+        return $this->process($env, $rootNode, $options);
     }
 
     public function getESMenuId($env, $id, $options = array())

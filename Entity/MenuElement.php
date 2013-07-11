@@ -89,6 +89,12 @@ class MenuElement
      */
     private $children;
 
+    /**
+     * @Gedmo\Slug(fields={"title"}, updatable=true)
+     * @ORM\Column(length=255, unique=true)
+     */
+    private $slug;
+
 
     /**
      * Get id
@@ -309,5 +315,28 @@ class MenuElement
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return MenuElement
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
