@@ -18,11 +18,11 @@ use ElsassSeeraiwer\ESMenuBundle\Form\NewMenuElementType;
  */
 class MenuController extends Controller
 {
-	private $img_arrowUp = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABSklEQVR42mNkoDFgHLVg1IJhZEFlVZXjt6/f8v7//8fCxc09raO9fTvVLMjKzg7i5uLqCw0Ll2dhYfm/Yd3aR6/fviuaPm3qOootyMrKduLj55tnZ2cvx8bGzvifgeH/718/GQ4dOvjo06dPSdOmTt1HtgUZmZlOPNzcfS5uHvq/f//5//v3b5D6/6ysrAysLMwMe/fsvPTl6zegT6btI9mC4JAQMx1tnTUWltayP37+YgCGPVA1UPl/kOx/IJOJgYODjeHEsaOPr1+/HrJq1cpTJFkgJSXplZyculFIWIT53/9/YJdD1f+HqWFiZGJ8+/bNn7lzZvs/f/58G0kWsLGxqQoLC7sAmRwEgvL727dv9/z69es2SRYEBgWxHj9+nJORARgWcHf/BwYVKHgYIVrB4v//WVnbfF+7ZvVvkiOZGmDUglELhoAFAAZiexnJTD3HAAAAAElFTkSuQmCC';
+    public $img_arrowUp = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABSklEQVR42mNkoDFgHLVg1IJhZEFlVZXjt6/f8v7//8fCxc09raO9fTvVLMjKzg7i5uLqCw0Ll2dhYfm/Yd3aR6/fviuaPm3qOootyMrKduLj55tnZ2cvx8bGzvifgeH/718/GQ4dOvjo06dPSdOmTt1HtgUZmZlOPNzcfS5uHvq/f//5//v3b5D6/6ysrAysLMwMe/fsvPTl6zegT6btI9mC4JAQMx1tnTUWltayP37+YgCGPVA1UPl/kOx/IJOJgYODjeHEsaOPr1+/HrJq1cpTJFkgJSXplZyculFIWIT53/9/YJdD1f+HqWFiZGJ8+/bNn7lzZvs/f/58G0kWsLGxqQoLC7sAmRwEgvL727dv9/z69es2SRYEBgWxHj9+nJORARgWcHf/BwYVKHgYIVrB4v//WVnbfF+7ZvVvkiOZGmDUglELhoAFAAZiexnJTD3HAAAAAElFTkSuQmCC';
 
-	private $img_arrowDown = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABbklEQVR42mNkoDFgHLVg1IIhbEF+foH+379/uv7+/cv2//9/hv8gQRANxIyMQG1AzATEzMwsv9g5OMp6e7ovkmSBhISER2tb+3o3N3f2r1+/gdQBTQZCqF0gwM3Nzbhr144f1VWVgS9evNhBkgVAzVqurm6N/gGBPtIyshwfPrz/D3Y2yBtAICAgyPD0yeOfGzes37J79676r1+/XiPJAmsbG+4L58/rOju7VPoHBPjJySv8//LlK9gnPDzcDI8ePmDYuGHD5r1797QbGRtfPnzo0FeSLAABF1c3zsOHDkq5ubn129s7uGpq63CAQura1as/Dh08sAsIiuzt7Z8B6e8kRzIMAA3nPHr0qL6trU2ptY2tFyiAjh45vPXIkSM91tY2F3ft2vkdn36ikqmDoyPP6VOntPn4+AxB/E+fPp03NTW7euDA/i+E9BKdD6ysrdlu3bzFDgoiVVW1n8ePH/tFjL5hnJNHLRi1gGgAAPYXkRlob6juAAAAAElFTkSuQmCC';
+    public $img_arrowDown = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABbklEQVR42mNkoDFgHLVg1IIhbEF+foH+379/uv7+/cv2//9/hv8gQRANxIyMQG1AzATEzMwsv9g5OMp6e7ovkmSBhISER2tb+3o3N3f2r1+/gdQBTQZCqF0gwM3Nzbhr144f1VWVgS9evNhBkgVAzVqurm6N/gGBPtIyshwfPrz/D3Y2yBtAICAgyPD0yeOfGzes37J79676r1+/XiPJAmsbG+4L58/rOju7VPoHBPjJySv8//LlK9gnPDzcDI8ePmDYuGHD5r1797QbGRtfPnzo0FeSLAABF1c3zsOHDkq5ubn129s7uGpq63CAQura1as/Dh08sAsIiuzt7Z8B6e8kRzIMAA3nPHr0qL6trU2ptY2tFyiAjh45vPXIkSM91tY2F3ft2vkdn36ikqmDoyPP6VOntPn4+AxB/E+fPp03NTW7euDA/i+E9BKdD6ysrdlu3bzFDgoiVVW1n8ePH/tFjL5hnJNHLRi1gGgAAPYXkRlob6juAAAAAElFTkSuQmCC';
 
-    private $colorLvl = array('000000', 'C3C6CF', 'BDE6E8', 'DBFFA1', 'FFD182', 'FFA361');
+    public $colorLvl = array('000000', 'C3C6CF', 'BDE6E8', 'DBFFA1', 'FFD182', 'FFA361');
 
     /**
      * @Route("/")
@@ -31,13 +31,13 @@ class MenuController extends Controller
      */
     public function indexAction()
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
 
-    	$rootNodes = $repo->findBy(
-    		array('lvl' => 0),
-    		array('id'	=> 'asc')
-		);
+        $rootNodes = $repo->findBy(
+            array('lvl' => 0),
+            array('id'  => 'asc')
+        );
 
         return $this->processList($rootNodes);
     }
@@ -47,6 +47,8 @@ class MenuController extends Controller
         $em = $this->getDoctrine()->getManager();
         $titleRootNodes = $slugRootNodes = $htmlTrees = array();
         $repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
+
+        $self = $this;
 
         foreach ($rootNodes as $rootNode) {
             $titleRootNodes[$rootNode->getId()] = $rootNode->getTitle();
@@ -60,19 +62,25 @@ class MenuController extends Controller
                     'html' => true,
                     'rootOpen' => '',
                     'rootClose' => '',
-                    'childOpen' => function($node) {
-                        $color = ($node['lvl'] <= 5)? $this->colorLvl[$node['lvl']] : 'FF7894'; 
+                    'childOpen' => function($node ,$A) use ($self) {
+                        $color = 'FF7894';
+                        if($node['lvl'] <= 5)
+                        {
+                            $color = $self->colorLvl[$node['lvl']];
+                        }
                         return '<tr style="background-color:#'.$color.';">';
                     },
                     'childClose' => function($node) {
                         return '</tr>';
                     },
-                    'nodeDecorator' => function($node) {
+                    'nodeDecorator' => function($node) use ($self) {
                         $html = '<td style="text-align:center;vertical-align: middle;">';
-                        $html.= '<a href="'.$this->generateURL('elsassseeraiwer_esmenu_menu_indexbyid', array('id'=>$node['id'])).'">';
-                        $html.= $node['id'].'</a>';
+                            $html.= '<a href="'.$self->generateURL('elsassseeraiwer_esmenu_menu_indexbyid', array('id'=>$node['id'])).'">';
+                            $html.= $node['id'].'</a>';
                         $html.= '</td>';
-                        $html.= '<td style="text-align:center;vertical-align: middle;">'.$node['lvl'].'</td>';
+                        $html.= '<td style="text-align:center;vertical-align: middle;">';
+                            $html.= $node['lvl'];
+                        $html.= '</td>';
                         $html.= '<td>';
                             $html.= '<input data-id="'.$node['id'].'" data-origin="'.$node['title'].'" style="width:95%;" type="text" value="'.$node['title'].'" name="'.$node['id'].'_title" id="'.$node['id'].'_title" class="editTitleForm"/>';
                         $html.= '</td>';
@@ -83,8 +91,8 @@ class MenuController extends Controller
                             $html.= '<input data-id="'.$node['id'].'" data-origin="'.htmlspecialchars($node['params']).'" style="width:95%;" type="text" value="'.htmlspecialchars($node['params']).'" name="'.$node['id'].'_params" id="'.$node['id'].'_params" class="editParamsForm"/>';
                         $html.= '</td>';
                         $html.= '<td>';
-                            $html.= '<a href="#" onclick="moveUp(\''.$node['id'].'\')"><img style="background-color:green;border:1px solid lightgrey;vertical-align:middle;width:24px;height:24px" title="moveUp" alt="moveUp" src="'.$this->img_arrowUp.'" /></a>&nbsp;';
-                            $html.= '<a href="#" onclick="moveDown(\''.$node['id'].'\')"><img style="background-color:green;border:1px solid lightgrey;vertical-align:middle;width:24px;height:24px" title="moveDown" alt="moveDown" src="'.$this->img_arrowDown.'" /></a>&nbsp;';
+                            $html.= '<a href="#" onclick="moveUp(\''.$node['id'].'\')"><img style="background-color:green;border:1px solid lightgrey;vertical-align:middle;width:24px;height:24px" title="moveUp" alt="moveUp" src="'.$self->img_arrowUp.'" /></a>&nbsp;';
+                            $html.= '<a href="#" onclick="moveDown(\''.$node['id'].'\')"><img style="background-color:green;border:1px solid lightgrey;vertical-align:middle;width:24px;height:24px" title="moveDown" alt="moveDown" src="'.$self->img_arrowDown.'" /></a>&nbsp;';
                             $html.= '<input type="button" value="Add Children" onclick="addChildren(\''.$node['id'].'\')" style="background-color:green;padding:4px 8px;color:white;"/>&nbsp;';
                             $html.= '<input type="button" value="Add Brother" onclick="addBrother(\''.$node['id'].'\')" style="background-color:green;padding:4px 8px;color:white;"/>&nbsp;';
                             $html.= '<input type="button" value="Delete" onclick="removeMenuElem(\''.$node['id'].'\')" style="background-color:red;color:white;padding:4px 8px;font-weight:bold;"/>&nbsp;';
@@ -108,8 +116,8 @@ class MenuController extends Controller
      */
     public function addAction(Request $request)
     {
-    	$menu = new MenuElement();
-    	$menuFirstChild = new MenuElement();
+        $menu = new MenuElement();
+        $menuFirstChild = new MenuElement();
 
         $form = $this->createForm(new NewMenuElementType(), $menu, array(
             'action' => $this->generateUrl('elsassseeraiwer_esmenu_menu_add'),
@@ -119,8 +127,8 @@ class MenuController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-        	$menuFirstChild->setTitle($menu->getTitle().' first element');
-        	$menuFirstChild->setParent($menu);
+            $menuFirstChild->setTitle($menu->getTitle().' first element');
+            $menuFirstChild->setParent($menu);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($menu);
@@ -144,9 +152,9 @@ class MenuController extends Controller
     public function moveUpAction(Request $request, MenuElement $menuElem)
     {        
         $em = $this->getDoctrine()->getManager();
-    	$repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
+        $repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
 
-    	$repo->moveUp($menuElem, 1);
+        $repo->moveUp($menuElem, 1);
 
         return new Response("OK");
     }   
@@ -160,9 +168,9 @@ class MenuController extends Controller
     public function moveDownAction(Request $request, MenuElement $menuElem)
     {        
         $em = $this->getDoctrine()->getManager();
-    	$repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
+        $repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
 
-    	$repo->moveDown($menuElem, 1);
+        $repo->moveDown($menuElem, 1);
 
         return new Response("OK");
     }   
@@ -229,7 +237,7 @@ class MenuController extends Controller
      * @ParamConverter("menuElem", class="ElsassSeeraiwerESMenuBundle:MenuElement")
      * @Template()
      * @Method("POST")
-	 */
+     */
     public function modifyTitleAction(Request $request, MenuElement $menuElem)
     {
         $title = $this->getRequest()->request->get('title');
@@ -302,80 +310,80 @@ class MenuController extends Controller
      */
     public function testAction()
     {
-    	$em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-    	$repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
+        $repo = $em->getRepository('ElsassSeeraiwerESMenuBundle:MenuElement');
 
-    	$rootNode = $repo->findOneByRoot(1);
+        $rootNode = $repo->findOneByRoot(1);
 
-    	$arrayTree = $repo->childrenHierarchy($rootNode);
+        $arrayTree = $repo->childrenHierarchy($rootNode);
 
-    	$htmlTree = $repo->childrenHierarchy(
-    		$rootNode,
-    		false,
-    		array(
-		        'decorate' => true,
-		        'html' => true
-			)
-		);
+        $htmlTree = $repo->childrenHierarchy(
+            $rootNode,
+            false,
+            array(
+                'decorate' => true,
+                'html' => true
+            )
+        );
 
-    	$htmlTree2 = $repo->childrenHierarchy(
-    		$rootNode,
-    		false,
-    		array(
-		        'decorate' => true,
-		        'html' => true,
-			    'nodeDecorator' => function($node) {
-			        return '<a href="http://www.google.fr"><span>'.$node['title'].'</span></a>';
-			    }
-			)
-		);
+        $htmlTree2 = $repo->childrenHierarchy(
+            $rootNode,
+            false,
+            array(
+                'decorate' => true,
+                'html' => true,
+                'nodeDecorator' => function($node) {
+                    return '<a href="http://www.google.fr"><span>'.$node['title'].'</span></a>';
+                }
+            )
+        );
 
-    	$htmlTree2 = $repo->childrenHierarchy(
-    		$rootNode,
-    		false,
-    		array(
-		        'decorate' => true,
-		        'representationField' => 'title',
-		        'html' => true,
-	            'rootOpen' => function($tree) {
-			    	if(count($tree) && $tree[0]['lvl'] <= 1)
-			    	{
-			        	return '<ul>';
-			        }
-			    },
-	            'rootClose' => function($child) {
-			    	if(count($child) && $child[0]['lvl'] <= 1)
-			    	{
-			        	return '</ul>';
-			        }
-			    },
-	            'childOpen' => function($node) {
-			    	if(count($node) && $node['lvl'] <= 1)
-			    	{
-			        	return '<li>';
-			        }
-			    },
-	            'childClose' => function($node) {
-			    	if(count($node) && $node['lvl'] <= 1)
-			    	{
-			        	return '</li>';
-			        }
-			    },
-			    'nodeDecorator' => function($node) {
-			    	if($node['lvl'] <= 1)
-			    	{
-			        	return '<a href="http://www.google.fr"><span>'.$node['title'].'</span></a>';
-			        }
-			    }
-			)
-		);
+        $htmlTree2 = $repo->childrenHierarchy(
+            $rootNode,
+            false,
+            array(
+                'decorate' => true,
+                'representationField' => 'title',
+                'html' => true,
+                'rootOpen' => function($tree) {
+                    if(count($tree) && $tree[0]['lvl'] <= 1)
+                    {
+                        return '<ul>';
+                    }
+                },
+                'rootClose' => function($child) {
+                    if(count($child) && $child[0]['lvl'] <= 1)
+                    {
+                        return '</ul>';
+                    }
+                },
+                'childOpen' => function($node) {
+                    if(count($node) && $node['lvl'] <= 1)
+                    {
+                        return '<li>';
+                    }
+                },
+                'childClose' => function($node) {
+                    if(count($node) && $node['lvl'] <= 1)
+                    {
+                        return '</li>';
+                    }
+                },
+                'nodeDecorator' => function($node) {
+                    if($node['lvl'] <= 1)
+                    {
+                        return '<a href="http://www.google.fr"><span>'.$node['title'].'</span></a>';
+                    }
+                }
+            )
+        );
 
         return array(
-        	'arrayTree' => $arrayTree,
-        	'htmlTree'	=> $htmlTree,
-        	'htmlTree2'	=> $htmlTree2,
-    	);
+            'arrayTree' => $arrayTree,
+            'htmlTree'  => $htmlTree,
+            'htmlTree2' => $htmlTree2,
+        );
     }
 
     /**
