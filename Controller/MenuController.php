@@ -82,7 +82,7 @@ class MenuController extends Controller
                             $html.= $node['lvl'];
                         $html.= '</td>';
                         $html.= '<td>';
-                            $html.= '<input data-id="'.$node['id'].'" data-origin="'.$node['title'].'" style="width:95%;" type="text" value="'.$node['title'].'" name="'.$node['id'].'_title" id="'.$node['id'].'_title" class="editTitleForm"/>';
+                            $html.= '<input data-id="'.$node['id'].'" data-origin="'.htmlspecialchars($node['title']).'" style="width:95%;" type="text" value="'.htmlspecialchars($node['title']).'" name="'.$node['id'].'_title" id="'.$node['id'].'_title" class="editTitleForm"/>';
                         $html.= '</td>';
                         $html.= '<td>';
                             $html.= '<input data-id="'.$node['id'].'" data-origin="'.$node['link'].'" style="width:95%;" type="text" value="'.$node['link'].'" name="'.$node['id'].'_link" id="'.$node['id'].'_link" class="editLinkForm"/>';
