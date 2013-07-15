@@ -16,15 +16,17 @@ class MenuExtension extends \Twig_Extension
     private $repoElement;
     private $repoConfig;
     private $env;
-    private $options = array(
+    private $defaultOptions = array(
         'transEdit'             => false,
         'translation_domain'    => 'esMenu',
+        'chevronRight'          => false,
         'lvlmax'                => 1,
         'lvl1'                  => array(
             'ulClassname'           => 'esMenuUL',
             'liClassname'           => 'esMenuLI',
         ),
     );
+    private $options = array();
 
     public function onKernelRequest(GetResponseEvent $event) {
         if ($event->getRequestType() === HttpKernel::MASTER_REQUEST) {
@@ -75,7 +77,7 @@ class MenuExtension extends \Twig_Extension
     {
         $this->env = $env;
 
-        $this->options = array_merge($this->options, $options);
+        $this->options = array_merge($this->defaultOptions, $options);
 
         $content = $this->repoElement->childrenHierarchy(
             $rootNode,
