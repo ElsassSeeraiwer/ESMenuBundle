@@ -10,13 +10,13 @@ use \Twig_Function_Method;
 
 class MenuExtension extends \Twig_Extension
 {
-    private $request;
-    private $container;
-	private $em;
-    private $repoElement;
-    private $repoConfig;
-    private $env;
-    private $defaultOptions = array(
+    public $request;
+    public $container;
+    public $em;
+    public $repoElement;
+    public $repoConfig;
+    public $env;
+    public $defaultOptions = array(
         'transEdit'             => false,
         'translation_domain'    => 'esMenu',
         'chevronRight'          => false,
@@ -26,7 +26,7 @@ class MenuExtension extends \Twig_Extension
             'liClassname'           => 'esMenuLI',
         ),
     );
-    private $options = array();
+    public $options = array();
 
     public function onKernelRequest(GetResponseEvent $event) {
         if ($event->getRequestType() === HttpKernel::MASTER_REQUEST) {
@@ -79,85 +79,87 @@ class MenuExtension extends \Twig_Extension
 
         $this->options = array_merge($this->defaultOptions, $options);
 
+        $self = $this;
+
         $content = $this->repoElement->childrenHierarchy(
             $rootNode,
             false,
             array(
                 'decorate' => true,
                 'html' => true,
-                'rootOpen' => function($tree) {
+                'rootOpen' => function($tree) use ($self){
                     $currentLVL = $tree[0]['lvl'];
-                    if($currentLVL > $this->options['lvlmax'])return '';
+                    if($currentLVL > $self->options['lvlmax'])return '';
 
                     $classname = 
-                        (isset($this->options['lvl'.$currentLVL]['ulClassname'])) ? 
-                            $this->options['lvl'.$currentLVL]['ulClassname'] : 
+                        (isset($self->options['lvl'.$currentLVL]['ulClassname'])) ? 
+                            $self->options['lvl'.$currentLVL]['ulClassname'] : 
                             'lvl'.$currentLVL ;
                     $id = 
-                        (isset($this->options['lvl'.$currentLVL]['ulId'])) ? $this->options['lvl'.$currentLVL]['ulId'] : '' ;
+                        (isset($self->options['lvl'.$currentLVL]['ulId'])) ? $self->options['lvl'.$currentLVL]['ulId'] : '' ;
                     return '<ul id="'.$id.'" class="'.$classname.'">';
                 },
-                'rootClose' => function($child) {
+                'rootClose' => function($child) use ($self) {
                     $currentLVL = $child[0]['lvl'];
-                    if($currentLVL > $this->options['lvlmax'])return '';
+                    if($currentLVL > $self->options['lvlmax'])return '';
 
                     return '</ul>';
                 },
-                'childOpen' => function($node) {
+                'childOpen' => function($node) use ($self) {
                     $currentLVL = $node['lvl'];
-                    if($currentLVL > $this->options['lvlmax'])return '';
+                    if($currentLVL > $self->options['lvlmax'])return '';
 
                     $classname = 
-                        (isset($this->options['lvl'.$currentLVL]['liClassname'])) ? 
-                            $this->options['lvl'.$currentLVL]['liClassname'] : 
+                        (isset($self->options['lvl'.$currentLVL]['liClassname'])) ? 
+                            $self->options['lvl'.$currentLVL]['liClassname'] : 
                             'lvl'.$currentLVL ;
                     $id = 'esMenuElem_'.$node['id'];
                     return '<li id="'.$id.'" class="'.$classname.'">';
                 },
-                'childClose' => function($node) {
+                'childClose' => function($node) use ($self) {
                     $currentLVL = $node['lvl'];
-                    if($currentLVL > $this->options['lvlmax'])return '';
+                    if($currentLVL > $self->options['lvlmax'])return '';
 
                     return '</li>';
                 },
-                'nodeDecorator' => function($node) {
+                'nodeDecorator' => function($node) use ($self) {
                     $currentLVL = $node['lvl'];
-                    if($currentLVL > $this->options['lvlmax'])return '';
+                    if($currentLVL > $self->options['lvlmax'])return '';
 
                     $link = $node['link'];
                     $params = json_decode(preg_replace("/([a-zA-Z0-9_]+?):/" , "\"$1\":", $node['params']), true);
 
                     if(substr($link,0,1) == '#')
                     {
-                        return $this->env->render('ElsassSeeraiwerESMenuBundle:Menu:node.html.twig', array(
+                        return $self->env->render('ElsassSeeraiwerESMenuBundle:Menu:node.html.twig', array(
                             'title'     => $node['title'], 
                             'link'      => $link,
-                            'options'   => $this->options,
+                            'options'   => $self->options,
                         ));
                     }
                     elseif(substr($link,0,7) == 'http://')
                     {
-                        return $this->env->render('ElsassSeeraiwerESMenuBundle:Menu:node.html.twig', array(
+                        return $self->env->render('ElsassSeeraiwerESMenuBundle:Menu:node.html.twig', array(
                             'title'     => $node['title'], 
                             'link'      => $link,
-                            'options'   => $this->options,
+                            'options'   => $self->options,
                         ));
                     }
                     elseif($link != '')
                     {
-                        return $this->env->render('ElsassSeeraiwerESMenuBundle:Menu:node.html.twig', array(
+                        return $self->env->render('ElsassSeeraiwerESMenuBundle:Menu:node.html.twig', array(
                             'title'     => $node['title'], 
                             'pathname'  => $link, 
                             'params'    => $params,
-                            'locale'    => $this->request->getLocale(),
-                            'options'   => $this->options,
+                            'locale'    => $self->request->getLocale(),
+                            'options'   => $self->options,
                         ));
                     }
                     else
                     {
-                        return $this->env->render('ElsassSeeraiwerESMenuBundle:Menu:node.html.twig', array(
+                        return $self->env->render('ElsassSeeraiwerESMenuBundle:Menu:node.html.twig', array(
                             'title'     => $node['title'],
-                            'options'   => $this->options,
+                            'options'   => $self->options,
                         ));
                     }
                 }

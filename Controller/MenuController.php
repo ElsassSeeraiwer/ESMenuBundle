@@ -62,7 +62,7 @@ class MenuController extends Controller
                     'html' => true,
                     'rootOpen' => '',
                     'rootClose' => '',
-                    'childOpen' => function($node ,$A) use ($self) {
+                    'childOpen' => function($node) use ($self) {
                         $color = 'FF7894';
                         if($node['lvl'] <= 5)
                         {
