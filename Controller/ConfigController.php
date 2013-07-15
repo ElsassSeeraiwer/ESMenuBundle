@@ -22,6 +22,7 @@ class ConfigController extends Controller
     private $defaultOptions = array(
         'transEdit'             =>  false,
         'translation_domain'    =>  'esMenu',
+        'chevronRight'          =>  false,
         'lvlmax'                =>  1,
         'lvl1'                  =>  array(
             'ulClassname'           =>  'esMenuUL',
@@ -52,7 +53,14 @@ class ConfigController extends Controller
     public function addAction(Request $request)
     {
         $config = new MenuConfig();
-        $config->setOptions(json_encode($this->defaultOptions, JSON_PRETTY_PRINT));
+        if(substr(phpversion(), 0, 3) == '5.3')
+        {
+            $config->setOptions(json_encode($this->defaultOptions));
+        }
+        else
+        {
+            $config->setOptions(json_encode($this->defaultOptions, JSON_PRETTY_PRINT));
+        }
 
         $form = $this->createForm(new NewMenuConfigType(), $config, array(
             'action' => $this->generateUrl('elsassseeraiwer_esmenu_config_add'),
